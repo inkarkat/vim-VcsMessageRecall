@@ -18,8 +18,8 @@ let g:loaded_VcsMessageRecall = 1
 
 augroup VcsMessageRecall
     autocmd!
-    autocmd FileType gitcommit call MessageRecall#Setup('', '')
-    autocmd FileType svn.txt   call MessageRecall#Setup('', '')
+    autocmd FileType gitcommit call MessageRecall#Setup($HOME . '/.gitcommit-messages', '1,/^# Please enter the commit message for your changes\./-1')
+    autocmd FileType svn.txt   call MessageRecall#Setup($HOME . '/.svncommit-messages', '1,/^--This line, and those below, will be ignored--/-1')
 augroup END
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
