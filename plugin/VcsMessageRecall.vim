@@ -1,6 +1,7 @@
 " VcsMessageRecall.vim: Browse and re-insert previous VCS commit messages.
 "
 " DEPENDENCIES:
+"   - ingofile.vim autoload script
 "   - MessageRecall.vim autoload script
 "
 " Copyright: (C) 2012 Ingo Karkat
@@ -9,6 +10,12 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.00.003	20-Jun-2012	Build filespec with
+"				ingofile#CombineToFilespec().
+"				Configure new a:options.whenRangeNoMatch to
+"				"all": when the commit message boilerplate has
+"				been deleted, the entire buffer should be
+"				captured.
 "   1.00.002	18-Jun-2012	Add support for Mercurial.
 "	001	11-Jun-2012	file creation
 
@@ -20,9 +27,9 @@ let g:loaded_VcsMessageRecall = 1
 
 augroup VcsMessageRecall
     autocmd!
-    autocmd FileType gitcommit,gitcommit.* call MessageRecall#Setup($HOME . '/.gitcommit-messages', '1,/^# Please enter the commit message for your changes\./-1')
-    autocmd FileType hgcommit,hgcommit.*   call MessageRecall#Setup($HOME . '/.hgcommit-messages' , '1,/^HG: Enter commit message\./-1')
-    autocmd FileType svn,svn.*             call MessageRecall#Setup($HOME . '/.svncommit-messages', '1,/^--This line, and those below, will be ignored--/-1')
+    autocmd FileType gitcommit,gitcommit.* call MessageRecall#Setup(ingofile#CombineToFilespec($HOME, '.gitcommit-messages'), {'whenRangeNoMatch': 'all', 'range': '1,/^# Please enter the commit message for your changes\./-1'})
+    autocmd FileType hgcommit,hgcommit.*   call MessageRecall#Setup(ingofile#CombineToFilespec($HOME, '.hgcommit-messages') , {'whenRangeNoMatch': 'all', 'range': '1,/^HG: Enter commit message\./-1'})
+    autocmd FileType svn,svn.*             call MessageRecall#Setup(ingofile#CombineToFilespec($HOME, '.svncommit-messages'), {'whenRangeNoMatch': 'all', 'range': '1,/^--This line, and those below, will be ignored--/-1'})
 augroup END
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
