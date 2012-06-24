@@ -39,9 +39,12 @@ function! s:GitMessageStore()
 endfunction
 
 function! s:HgMessageStore()
-    " Mercurial stores the temporary file in the temp directory. With
-    " 'autochdir', we have to go to the launching directory first.
+    " Mercurial stores the temporary file in the temp directory.
+    " With 'autochdir', we have to go to the launching directory first.
+    " Otherwise, just try with the CWD, it's likely that we're inside the repo.
+    " The Mercurial command "hg root" tells us the root of the repository.
     let l:hgRoot = ''
+    let l:hgDirspec = ''
     if ! &autochdir
 	let l:hgRoot = system('hg root')
     endif
@@ -50,19 +53,42 @@ function! s:HgMessageStore()
     endif
     if empty(l:hgRoot)
 	let l:hgDirspec = finddir('.hg', ';')
-	if ! empty(l:hgDirspec)
-	    let l:hgRoot = fnamemodify(l:hgDirspec, ':h')
-	endif
     endif
-    if empty(l:hgRoot)
+    if empty(l:hgRoot) && empty(l:hgDirspec)
 	throw 'VcsMessageRecall: Cannot determine base directory of the Mercurial repository!'
+    elseif empty(l:hgDirspec)
+	let l:hgDirspec = ingofile#CombineToFilespec(l:hgRoot, '.hg')
     endif
 
-    return ingofile#CombineToFilespec(l:hgRoot, 'commit-msgs')
+    return ingofile#CombineToFilespec(l:hgDirspec, 'commit-msgs')
 endfunction
 
+function! s:FindLastContainedInUpDir( name, path )
+    let l:dir = a:path
+    let l:prevDir = ''
+    while l:dir !=# l:prevDir
+	if empty(globpath(l:dir, a:name, 1))
+	    return l:prevDir
+	endif
+	let l:prevDir = l:dir
+	let l:dir = fnamemodify(l:dir, ':h')
+	if (has('win32') || has('win64')) && l:dir =~ '^\\\\[^\\]\+$'
+	    break
+	endif
+    endwhile
+
+    return l:dir
+endfunction
 function! s:SvnMessageStore()
-    return ingofile#CombineToFilespec($HOME, '.svn-commit-msgs')
+    " Iterate upwards from CWD until we're in a directory without a .svn
+    " directory.
+    let l:svnRoot = s:FindLastContainedInUpDir('.svn', expand('%:p:h'))
+    if empty(l:svnRoot)
+	throw 'VcsMessageRecall: Cannot determine base directory of the Subversion repository!'
+    endif
+
+    let l:svnDirspec = ingofile#CombineToFilespec(l:svnRoot, '.svn')
+    return ingofile#CombineToFilespec(l:svnDirspec, 'commit-msgs')
 endfunction
 
 augroup VcsMessageRecall
