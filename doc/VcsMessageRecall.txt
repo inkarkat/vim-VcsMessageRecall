@@ -1,0 +1,107 @@
+*VcsMessageRecall.txt*	Browse and re-insert previous VCScommit messages.
+
+		     VCS MESSAGE RECALL    by Ingo Karkat
+							*VcsMessageRecall.vim*
+description			|VcsMessageRecall-description|
+usage				|VcsMessageRecall-usage|
+installation			|VcsMessageRecall-installation|
+configuration			|VcsMessageRecall-configuration|
+integration			|VcsMessageRecall-integration|
+limitations			|VcsMessageRecall-limitations|
+known problems			|VcsMessageRecall-known-problems|
+todo				|VcsMessageRecall-todo|
+history				|VcsMessageRecall-history|
+
+==============================================================================
+DESCRIPTION					*VcsMessageRecall-description*
+
+This plugin automatically persists commit messages from Git, Mercurial, and
+Subversion when Vim is invoked as the commit message editor. It sets up
+mappings and commands to iterate through stored past messages, and recall the
+contents (without the boilerplate text at the bottom of each message) for use
+in the currently edited message. This way, you automatically collect a history
+of (committed or aborted) past messages, and can quickly base your current
+message on contents recalled from that history.
+
+HOW IT WORKS								     *
+
+SEE ALSO								     *
+
+RELATED WORKS								     *
+
+==============================================================================
+USAGE						      *VcsMessageRecall-usage*
+
+See |MessageRecall-message-usage| for the available mappings and commands.
+
+
+EXAMPLE						    *VcsMessageRecall-example*
+
+You commit a set of changes via "git commit". Vim is invoked on the
+.git/COMMIT_EDITMSG file, which so far just shows the boilerplate comments at
+the bottom of the file.
+You press CTRL-P to recall the previous commit message, because this commit is
+related to it, and you want to re-use parts of its description. The previous
+commit message is inserted above the boilerplate.
+Was it that message? You browse through some more via CTRL-P and CTRL-N, then
+start editing. Oh, there also was some useful information in the third last
+commit. A 3CTRL-P opens that message in the preview window (because your
+current message is now modified, and therefore won't be replaced).
+From there, you yank and paste the sentence into your current commit message.
+You could have also incorporated the entire message via :3MessageRecall,
+either from the preview window, or directly inside the current message.
+
+Finally, you finish your message. But DUH! you actually forgot to fix
+something. You bail out via |:cquit|!, and Git aborts the commit. Nothing is
+lost, though. On the next try, a simple CTRL-P or :MessageRecall will retrieve
+your carefully crafted text.
+
+==============================================================================
+INSTALLATION				       *VcsMessageRecall-installation*
+
+This script is packaged as a |vimball|. If you have the "gunzip" decompressor
+in your PATH, simply edit the *.vba.gz package in Vim; otherwise, decompress
+the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
+vimball or via the |:UseVimball| command. >
+    vim VcsMessageRecall.vba.gz
+    :so %
+To uninstall, use the |:RmVimball| command.
+
+DEPENDENCIES				       *VcsMessageRecall-dependencies*
+
+- Requires Vim 7.0 or higher.
+- Requires the EditSimilar plugin (vimscript #2544), version 2.00 or higher.
+- Requires the BufferPersist plugin (vimscript #0000).
+- Requires the MessageRecall plugin (vimscript #0000).
+
+==============================================================================
+CONFIGURATION				      *VcsMessageRecall-configuration*
+
+==============================================================================
+INTEGRATION					*VcsMessageRecall-integration*
+
+==============================================================================
+LIMITATIONS					*VcsMessageRecall-limitations*
+
+KNOWN PROBLEMS				     *VcsMessageRecall-known-problems*
+
+TODO						       *VcsMessageRecall-todo*
+
+IDEAS						      *VcsMessageRecall-ideas*
+
+==============================================================================
+HISTORY						    *VcsMessageRecall-history*
+
+1.00	18-Jun-2012
+First published version.
+
+0.01	18-Jun-2012
+Started development.
+
+==============================================================================
+Copyright: (C) 2012 Ingo Karkat
+The VIM LICENSE applies to this script; see |copyright|.
+
+Maintainer:	Ingo Karkat <ingo@karkat.de>
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:
