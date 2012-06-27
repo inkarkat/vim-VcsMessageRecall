@@ -1,4 +1,4 @@
-*VcsMessageRecall.txt*	Browse and re-insert previous VCScommit messages.
+*VcsMessageRecall.txt*	Browse and re-insert previous VCS commit messages.
 
 		     VCS MESSAGE RECALL    by Ingo Karkat
 							*VcsMessageRecall.vim*
@@ -15,15 +15,14 @@ history				|VcsMessageRecall-history|
 ==============================================================================
 DESCRIPTION					*VcsMessageRecall-description*
 
-This plugin automatically persists commit messages from Git, Mercurial, and
-Subversion when Vim is invoked as the commit message editor. It sets up
-mappings and commands to iterate through stored past messages, and recall the
-contents (without the boilerplate text at the bottom of each message) for use
-in the currently edited message. This way, you automatically collect a history
-of (committed or aborted) past messages, and can quickly base your current
-message on contents recalled from that history.
-
-HOW IT WORKS								     *
+This plugin automatically persists commit messages from Git, Mercurial,
+Subversion (and potentially other version control systems) when Vim is invoked
+as the commit message editor. It sets up mappings and commands to iterate
+through stored past messages, and recall the contents (without the boilerplate
+text at the bottom of each message) for use in the currently edited message.
+This way, you automatically collect a history of (committed or aborted) past
+messages, and can quickly base your current message on contents recalled from
+that history.
 
 SEE ALSO								     *
 
@@ -33,6 +32,15 @@ RELATED WORKS								     *
 USAGE						      *VcsMessageRecall-usage*
 
 See |MessageRecall-message-usage| for the available mappings and commands.
+
+The commit messages are stored separately for each repository, no matter from
+which subdirectory of the repository you're committing. The location of the
+message store is
+    {.git,.hg,.svn}/commit-msgs/
+As repositories typically contain totally different projects, it's unlikely
+that you need to recall messages from a different repository, but if you need
+to, you can still pass that path to the |:MessageRecall| command, or even
+reconfigure the plugin to use a single, global message store.
 
 
 EXAMPLE						    *VcsMessageRecall-example*
@@ -45,7 +53,7 @@ related to it, and you want to re-use parts of its description. The previous
 commit message is inserted above the boilerplate.
 Was it that message? You browse through some more via CTRL-P and CTRL-N, then
 start editing. Oh, there also was some useful information in the third last
-commit. A 3CTRL-P opens that message in the preview window (because your
+commit. A 3_CTRL-P opens that message in the preview window (because your
 current message is now modified, and therefore won't be replaced).
 From there, you yank and paste the sentence into your current commit message.
 You could have also incorporated the entire message via :3MessageRecall,
@@ -71,11 +79,22 @@ DEPENDENCIES				       *VcsMessageRecall-dependencies*
 
 - Requires Vim 7.0 or higher.
 - Requires the EditSimilar plugin (vimscript #2544), version 2.00 or higher.
-- Requires the BufferPersist plugin (vimscript #0000).
-- Requires the MessageRecall plugin (vimscript #0000).
+- Requires the BufferPersist plugin (vimscript #4115).
+- Requires the MessageRecall plugin (vimscript #4116).
 
 ==============================================================================
 CONFIGURATION				      *VcsMessageRecall-configuration*
+
+You can override the autocmds after the plugin has been sourced, e.g. in a
+file .vim/after/plugin/VcsMessageRecall.vim
+For example, to use a single, global message store for all Subversion commits: >
+    autocmd! VcsMessageRecall FileType svn,svn.*
+    \	call MessageRecall#Setup($HOME . '/.svn-commit-msgs',
+    \	    {'whenRangeNoMatch': 'all', 'range': '1,1/^\n*--This line, and those below, will be ignored--/-1'})
+<
+
+If you use a localized version of the VCS utilities, you have to adapt the
+patterns for the boilerplate detection.
 
 ==============================================================================
 INTEGRATION					*VcsMessageRecall-integration*
@@ -92,7 +111,7 @@ IDEAS						      *VcsMessageRecall-ideas*
 ==============================================================================
 HISTORY						    *VcsMessageRecall-history*
 
-1.00	18-Jun-2012
+1.00	25-Jun-2012
 First published version.
 
 0.01	18-Jun-2012
