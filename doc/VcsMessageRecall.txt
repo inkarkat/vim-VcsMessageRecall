@@ -111,6 +111,11 @@ IDEAS						      *VcsMessageRecall-ideas*
 ==============================================================================
 HISTORY						    *VcsMessageRecall-history*
 
+1.01	25-Jun-2012
+Revise range regexp to avoid capturing an empty line before (more empty lines
+before) the boilerplate, and to avoid capturing the first line of the
+boilerplate when at line 1.
+
 1.00	25-Jun-2012
 First published version.
 
