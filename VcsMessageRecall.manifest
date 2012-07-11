@@ -1,0 +1,7 @@
+autoload/escapings.vim
+autoload/ingofile.vim
+autoload/VcsMessageRecall/git.vim
+autoload/VcsMessageRecall/hg.vim
+autoload/VcsMessageRecall/svn.vim
+plugin/VcsMessageRecall.vim
+doc/VcsMessageRecall.txt
