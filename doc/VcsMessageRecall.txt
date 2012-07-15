@@ -89,8 +89,10 @@ You can override the autocmds after the plugin has been sourced, e.g. in a
 file .vim/after/plugin/VcsMessageRecall.vim
 For example, to use a single, global message store for all Subversion commits: >
     autocmd! VcsMessageRecall FileType svn,svn.*
-    \	call MessageRecall#Setup($HOME . '/.svn-commit-msgs',
-    \	    {'whenRangeNoMatch': 'all', 'range': '1,1/^\n*--This line, and those below, will be ignored--/-1'})
+    \	call VcsMessageRecall#Setup(
+    \	    $HOME . '/.svn-commit-msgs',
+    \	    '--This line, and those below, will be ignored--'
+    \	)
 <
 
 If you use a localized version of the VCS utilities, you have to adapt the
@@ -110,6 +112,19 @@ IDEAS						      *VcsMessageRecall-ideas*
 
 ==============================================================================
 HISTORY						    *VcsMessageRecall-history*
+
+1.02	12-Jul-2012
+- FIX: Typo in function name breaks Subversion support.
+- FIX: Avoid determining message store location when a stored message is
+  edited.
+- Split off VcsMessageRecall#Setup() to consolidate the setup duplicated for
+  each VCS and to introduce error handling. Exceptions should not reach the
+  user, as this aborts the opening of the file. Rather, just print out the
+  error and continue.
+- Revise range regexp again to also match an empty line above the boilerplate;
+  this will be discarded by BufferPersist, anyway. We need a match in that
+  case to properly replace a just-opened, otherwise empty commit message via
+  CTRL-P or :MessageRecall.
 
 1.01	25-Jun-2012
 Revise range regexp to avoid capturing an empty line before (more empty lines
