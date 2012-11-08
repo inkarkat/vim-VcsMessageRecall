@@ -28,6 +28,10 @@ SEE ALSO								     *
 
 RELATED WORKS								     *
 
+- svn_commit (vimscript #1451) will look in the current directory for aborted
+  subversion commit log messages, and then read in the newest one to your
+  current commit log.
+
 ==============================================================================
 USAGE						      *VcsMessageRecall-usage*
 
