@@ -117,6 +117,10 @@ IDEAS						      *VcsMessageRecall-ideas*
 ==============================================================================
 HISTORY						    *VcsMessageRecall-history*
 
+1.03	09-Nov-2012
+- FIX: On Cygwin and Mercurial, the system() calls have a trailing newline,
+  which breaks the concatenation and leads to strange errors in
+
 1.02	12-Jul-2012
 - FIX: Typo in function name breaks Subversion support.
 - FIX: Avoid determining message store location when a stored message is
