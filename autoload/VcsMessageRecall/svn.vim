@@ -9,6 +9,8 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.02.002	12-Jul-2012	FIX: Typo in function name breaks Subversion
+"				support.
 "   1.00.001	25-Jun-2012	file creation
 
 function! s:FindLastContainedInUpDir( name, path )
@@ -27,7 +29,7 @@ function! s:FindLastContainedInUpDir( name, path )
 
     return l:dir
 endfunction
-function! s:VcsMessageRecall#svn#MessageStore()
+function! VcsMessageRecall#svn#MessageStore()
     " Iterate upwards from CWD until we're in a directory without a .svn
     " directory.
     let l:svnRoot = s:FindLastContainedInUpDir('.svn', expand('%:p:h'))
