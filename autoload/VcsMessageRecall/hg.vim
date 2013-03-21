@@ -10,8 +10,15 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.03.002	09-Nov-2012	FIX: On Cygwin, the system() calls have a
+"				trailing newline, which breaks the concatenation
+"				and leads to strange errors in
+"				MessageRecall#MappingsAndCommands#MessageBufferSetup().
 "   1.00.001	25-Jun-2012	file creation
 
+function! s:System( ... )
+    return substitute(call('system', a:000), '\n\+$', '', '')
+endfunction
 function! VcsMessageRecall#hg#MessageStore()
     " Mercurial stores the temporary file in the temp directory.
     " With 'autochdir', we have to go to the launching directory first.
@@ -20,10 +27,10 @@ function! VcsMessageRecall#hg#MessageStore()
     let l:hgRoot = ''
     let l:hgDirspec = ''
     if ! &autochdir
-	let l:hgRoot = system('hg root')
+	let l:hgRoot = s:System('hg root')
     endif
     if empty(l:hgRoot)
-	let l:hgRoot = system('cd ' . escapings#shellescape($PWD) . '&& hg root')
+	let l:hgRoot = s:System('cd ' . escapings#shellescape($PWD) . '&& hg root')
     endif
     if empty(l:hgRoot)
 	let l:hgDirspec = finddir('.hg', ';')
