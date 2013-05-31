@@ -1,5 +1,6 @@
 autoload/escapings.vim
 autoload/ingofile.vim
+autoload/VcsMessageRecall.vim
 autoload/VcsMessageRecall/git.vim
 autoload/VcsMessageRecall/hg.vim
 autoload/VcsMessageRecall/svn.vim
