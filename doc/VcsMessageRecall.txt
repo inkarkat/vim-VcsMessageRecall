@@ -72,16 +72,18 @@ your carefully crafted text.
 INSTALLATION				       *VcsMessageRecall-installation*
 
 This script is packaged as a |vimball|. If you have the "gunzip" decompressor
-in your PATH, simply edit the *.vba.gz package in Vim; otherwise, decompress
+in your PATH, simply edit the *.vmb.gz package in Vim; otherwise, decompress
 the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
 vimball or via the |:UseVimball| command. >
-    vim VcsMessageRecall.vba.gz
+    vim VcsMessageRecall*.vmb.gz
     :so %
 To uninstall, use the |:RmVimball| command.
 
 DEPENDENCIES				       *VcsMessageRecall-dependencies*
 
 - Requires Vim 7.0 or higher.
+- Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.007 or
+  higher.
 - Requires the EditSimilar plugin (vimscript #2544), version 2.00 or higher.
 - Requires the BufferPersist plugin (vimscript #4115).
 - Requires the MessageRecall plugin (vimscript #4116).
@@ -149,7 +151,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012 Ingo Karkat
+Copyright: (C) 2012-2013 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
