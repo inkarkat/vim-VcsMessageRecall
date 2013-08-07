@@ -2,7 +2,7 @@
 "
 " DEPENDENCIES:
 "   - escapings.vim autoload script
-"   - ingofile.vim autoload script
+"   - ingo/fs/path.vim autoload script
 "   - ingo/system.vim autoload script
 "
 " Copyright: (C) 2012-2013 Ingo Karkat
@@ -11,6 +11,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.04.004	01-Jun-2013	Move ingofile.vim into ingo-library.
 "   1.04.003	22-Mar-2013	Factor out s:System() to ingo/system.vim.
 "   1.03.002	09-Nov-2012	FIX: On Cygwin, the system() calls have a
 "				trailing newline, which breaks the concatenation
@@ -37,10 +38,10 @@ function! VcsMessageRecall#hg#MessageStore()
     if empty(l:hgRoot) && empty(l:hgDirspec)
 	throw 'VcsMessageRecall: Cannot determine base directory of the Mercurial repository!'
     elseif empty(l:hgDirspec)
-	let l:hgDirspec = ingofile#CombineToFilespec(l:hgRoot, '.hg')
+	let l:hgDirspec = ingo#fs#path#Combine(l:hgRoot, '.hg')
     endif
 
-    return ingofile#CombineToFilespec(l:hgDirspec, 'commit-msgs')
+    return ingo#fs#path#Combine(l:hgDirspec, 'commit-msgs')
 endfunction
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
