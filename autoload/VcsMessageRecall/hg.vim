@@ -1,7 +1,7 @@
 " VcsMessageRecall/hg.vim: Repository message store location for Mercurial.
 "
 " DEPENDENCIES:
-"   - escapings.vim autoload script
+"   - ingo/compat.vim autoload script
 "   - ingo/fs/path.vim autoload script
 "   - ingo/system.vim autoload script
 "
@@ -11,6 +11,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.04.005	08-Aug-2013	Move escapings.vim into ingo-library.
 "   1.04.004	01-Jun-2013	Move ingofile.vim into ingo-library.
 "   1.04.003	22-Mar-2013	Factor out s:System() to ingo/system.vim.
 "   1.03.002	09-Nov-2012	FIX: On Cygwin, the system() calls have a
@@ -30,7 +31,7 @@ function! VcsMessageRecall#hg#MessageStore()
 	let l:hgRoot = ingo#system#Chomped('hg root')
     endif
     if empty(l:hgRoot)
-	let l:hgRoot = ingo#system#Chomped('cd ' . escapings#shellescape($PWD) . '&& hg root')
+	let l:hgRoot = ingo#system#Chomped('chdir ' . ingo#compat#shellescape($PWD) . '&& hg root')
     endif
     if empty(l:hgRoot)
 	let l:hgDirspec = finddir('.hg', ';')
