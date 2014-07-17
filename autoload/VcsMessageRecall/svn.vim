@@ -10,6 +10,9 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.04.006	01-Aug-2013	ingo#fs#traversal#FindLastContainedInUpDir now
+"				defaults to the current buffer's directory; omit
+"				the argument.
 "   1.04.005	01-Jun-2013	Move ingofile.vim into ingo-library.
 "   1.04.004	26-Mar-2013	Rename to
 "				ingo#fs#traversal#FindLastContainedInUpDir()
@@ -22,7 +25,7 @@
 function! VcsMessageRecall#svn#MessageStore()
     " Iterate upwards from CWD until we're in a directory without a .svn
     " directory.
-    let l:svnRoot = ingo#fs#traversal#FindLastContainedInUpDir('.svn', expand('%:p:h'))
+    let l:svnRoot = ingo#fs#traversal#FindLastContainedInUpDir('.svn')
     if empty(l:svnRoot)
 	throw 'VcsMessageRecall: Cannot determine base directory of the Subversion repository!'
     endif
