@@ -5,12 +5,13 @@
 "   - ingo/fs/path.vim autoload script
 "   - ingo/system.vim autoload script
 "
-" Copyright: (C) 2012-2013 Ingo Karkat
+" Copyright: (C) 2012-2014 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.04.006	17-Jan-2014	Check for existence of 'autochdir'.
 "   1.04.005	08-Aug-2013	Move escapings.vim into ingo-library.
 "   1.04.004	01-Jun-2013	Move ingofile.vim into ingo-library.
 "   1.04.003	22-Mar-2013	Factor out s:System() to ingo/system.vim.
@@ -27,7 +28,7 @@ function! VcsMessageRecall#hg#MessageStore()
     " The Mercurial command "hg root" tells us the root of the repository.
     let l:hgRoot = ''
     let l:hgDirspec = ''
-    if ! &autochdir
+    if ! exists('+autochdir') || ! &autochdir
 	let l:hgRoot = ingo#system#Chomped('hg root')
     endif
     if empty(l:hgRoot)
