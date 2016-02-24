@@ -1,4 +1,3 @@
-autoload/escapings.vim
 autoload/VcsMessageRecall.vim
 autoload/VcsMessageRecall/git.vim
 autoload/VcsMessageRecall/hg.vim
