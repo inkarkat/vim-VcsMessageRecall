@@ -2,13 +2,15 @@
 "
 " DEPENDENCIES:
 "   - MessageRecall.vim autoload script
+"   - ingo/msg.vim autoload script
 "
-" Copyright: (C) 2012 Ingo Karkat
+" Copyright: (C) 2012-2013 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.04.003	14-Jun-2013	Use ingo/msg.vim.
 "   1.02.002	12-Jul-2012	FIX: Avoid determining message store location
 "				when a stored message is edited.
 "				Revise range regexp again to also match an empty
@@ -50,15 +52,9 @@ function! VcsMessageRecall#Setup( MessageStore, boilerplateStartLinePattern )
 	\   }
 	\)
     catch /^VcsMessageRecall:/
-	let v:errmsg = substitute(v:exception, '^VcsMessageRecall:\s*', '', '')
-	echohl ErrorMsg
-	echomsg v:errmsg
-	echohl None
+	call ingo#msg#CustomExceptionMsg('VcsMessageRecall')
     catch /^MessageRecall:/
-	let v:errmsg = substitute(v:exception, '^MessageRecall:\s*', '', '')
-	echohl ErrorMsg
-	echomsg v:errmsg
-	echohl None
+	call ingo#msg#CustomExceptionMsg('MessageRecall')
     endtry
 endfunction
 
