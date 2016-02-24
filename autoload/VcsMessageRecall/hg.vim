@@ -11,6 +11,8 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.04.007	18-Jul-2014	FIX: Make VCS root dir detection work when CWD
+"				is outside of the working copy.
 "   1.04.006	17-Jan-2014	Check for existence of 'autochdir'.
 "   1.04.005	08-Aug-2013	Move escapings.vim into ingo-library.
 "   1.04.004	01-Jun-2013	Move ingofile.vim into ingo-library.
@@ -35,7 +37,7 @@ function! VcsMessageRecall#hg#MessageStore()
 	let l:hgRoot = ingo#system#Chomped('chdir ' . ingo#compat#shellescape($PWD) . '&& hg root')
     endif
     if empty(l:hgRoot)
-	let l:hgDirspec = finddir('.hg', ';')
+	let l:hgDirspec = finddir('.hg', '.;')
     endif
     if empty(l:hgRoot) && empty(l:hgDirspec)
 	throw 'VcsMessageRecall: Cannot determine base directory of the Mercurial repository!'
