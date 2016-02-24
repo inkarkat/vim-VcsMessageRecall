@@ -1,7 +1,7 @@
 " VcsMessageRecall.vim: Browse and re-insert previous VCS commit messages.
 "
 " DEPENDENCIES:
-"   - MessageRecall.vim autoload script
+"   - VcsMessageRecall.vim autoload script
 "   - VcsMessageRecall/git.vim autoload script
 "   - VcsMessageRecall/hg.vim autoload script
 "   - VcsMessageRecall/svn.vim autoload script
@@ -12,6 +12,13 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.02.006	12-Jul-2012	Split off VcsMessageRecall#Setup() to
+"				consolidate the setup duplicated for each VCS
+"				and to introduce error handling. Exceptions
+"				(from us and potentially from the MessageRecall
+"				plugin) should not reach the user, as this
+"				aborts the opening of the file. Rather, just
+"				print out the error and continue.
 "   1.01.006	25-Jun-2012	Revise range regexp to avoid capturing an empty
 "				line before (more empty lines before) the
 "				boilerplate, and to avoid capturing the first
@@ -41,9 +48,9 @@ let g:loaded_VcsMessageRecall = 1
 
 augroup VcsMessageRecall
     autocmd!
-    autocmd FileType gitcommit,gitcommit.* call MessageRecall#Setup(VcsMessageRecall#git#MessageStore(), {'whenRangeNoMatch': 'all', 'range': '1,1/.\n\zs\n*# Please enter the commit message for your changes\./-1'})
-    autocmd FileType hgcommit,hgcommit.*   call MessageRecall#Setup(VcsMessageRecall#hg#MessageStore() , {'whenRangeNoMatch': 'all', 'range': '1,1/.\n\zs\n*HG: Enter commit message\./-1'})
-    autocmd FileType svn,svn.*             call MessageRecall#Setup(VcsMessageRecall#svn#MessageStore(), {'whenRangeNoMatch': 'all', 'range': '1,1/.\n\zs\n*--This line, and those below, will be ignored--/-1'})
+    autocmd FileType gitcommit,gitcommit.* call VcsMessageRecall#Setup(function('VcsMessageRecall#git#MessageStore'), '# Please enter the commit message for your changes\.')
+    autocmd FileType hgcommit,hgcommit.*   call VcsMessageRecall#Setup(function('VcsMessageRecall#hg#MessageStore' ), 'HG: Enter commit message\.')
+    autocmd FileType svn,svn.*             call VcsMessageRecall#Setup(function('VcsMessageRecall#svn#MessageStore'), '--This line, and those below, will be ignored--')
 augroup END
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
