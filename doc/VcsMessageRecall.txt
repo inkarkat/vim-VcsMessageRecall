@@ -31,6 +31,8 @@ RELATED WORKS								     *
 - svn_commit (vimscript #1451) will look in the current directory for aborted
   subversion commit log messages, and then read in the newest one to your
   current commit log.
+- vim-git-msg-wheel (vimscript #5750) shows a completion menu with the last
+  Git commit messages (titles only), by querying Git's log.
 
 ==============================================================================
 USAGE						      *VcsMessageRecall-usage*
@@ -157,7 +159,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012-2014 Ingo Karkat
+Copyright: (C) 2012-2018 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
