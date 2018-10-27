@@ -119,16 +119,18 @@ IDEAS						      *VcsMessageRecall-ideas*
 ==============================================================================
 HISTORY						    *VcsMessageRecall-history*
 
-1.04	RELEASEME
+1.04	23-Dec-2014
 - Factor out function to and use ingo-library.
 - Support Subversion 1.7 repository layout with only a single .svn directory
   inside the working copy root.
 - FIX: Make Mercurial root dir detection work when CWD is outside of the
   working copy.
+  *** You need to separately install ingo-library (vimscript #4433) version
+  1.012 (or higher)! ***
 
-1.03	09-Nov-2012
+1.03	09-Nov-2012 (unreleased)
 - FIX: On Cygwin and Mercurial, the system() calls have a trailing newline,
-  which breaks the concatenation and leads to strange errors in
+  which breaks the concatenation and leads to strange errors.
 
 1.02	12-Jul-2012
 - FIX: Typo in function name breaks Subversion support.
