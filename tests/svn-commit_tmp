@@ -1,0 +1,8 @@
+BUG167898: Foo is in bar here. But isn't this summary way too long?
+
+Also see BUG212320. There.
+--This line, and those below, will be ignored--
+
+M    components/flex/FooManager/commands/ImportFooPackCommand.as
+A    components/flex/FooManager/commands/ListFooPackCommand.as
+D    components/flex/FooManager/commands/NoopFooPackCommand.as
