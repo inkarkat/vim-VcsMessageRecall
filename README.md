@@ -79,7 +79,7 @@ To uninstall, use the :RmVimball command.
 ### DEPENDENCIES
 
 - Requires Vim 7.0 or higher.
-- Requires the ingo-library.vim plugin ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)), version 1.012 or
+- Requires the ingo-library.vim plugin ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)), version 1.038 or
   higher.
 - Requires the EditSimilar plugin ([vimscript #2544](http://www.vim.org/scripts/script.php?script_id=2544)), version 2.00 or higher.
 - Requires the BufferPersist plugin ([vimscript #4115](http://www.vim.org/scripts/script.php?script_id=4115)).
@@ -110,6 +110,13 @@ below).
 
 HISTORY
 ------------------------------------------------------------------------------
+
+##### 1.05    RELEASEME
+- ENH: Message stores from working copies that are located next to the current
+  one are configured (in b:MessageRecall\_ConfiguredMessageStores)
+  automatically for easy access via :MessageStore {dir}.
+
+__You need to update to ingo-library ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)) version 1.038!__
 
 ##### 1.04    23-Dec-2014
 - Factor out function to and use ingo-library.
