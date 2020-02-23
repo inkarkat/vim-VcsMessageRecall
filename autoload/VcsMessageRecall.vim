@@ -1,30 +1,12 @@
 " VcsMessageRecall.vim: Browse and re-insert previous VCS commit messages.
 "
 " DEPENDENCIES:
-"   - MessageRecall.vim autoload script
-"   - ingo/msg.vim autoload script
+"   - ingo-library.vim plugin
 "
-" Copyright: (C) 2012-2019 Ingo Karkat
+" Copyright: (C) 2012-2020 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"   1.04.003	14-Jun-2013	Use ingo/msg.vim.
-"   1.02.002	12-Jul-2012	FIX: Avoid determining message store location
-"				when a stored message is edited.
-"				Revise range regexp again to also match an empty
-"				line above the boilerplate; this will be
-"				discarded by BufferPersist, anyway. We need a
-"				match in that case to properly replace a
-"				just-opened, otherwise empty commit message via
-"				CTRL-P or :MessageRecall. The only content that
-"				gets erroneously persisted is when the
-"				boilerplate is in line 1, since we cannot build
-"				a matching range starting in line 1 that
-"				contains only empty lines then.
-"   1.02.001	12-Jul-2012	Split off VcsMessageRecall#Setup().
-"				file creation
 let s:save_cpo = &cpo
 set cpo&vim
 
