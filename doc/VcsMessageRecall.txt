@@ -24,8 +24,6 @@ This way, you automatically collect a history of (committed or aborted) past
 messages, and can quickly base your current message on contents recalled from
 that history.
 
-SEE ALSO								     *
-
 RELATED WORKS								     *
 
 - svn_commit (vimscript #1451) will look in the current directory for aborted
@@ -73,10 +71,16 @@ your carefully crafted text.
 ==============================================================================
 INSTALLATION				       *VcsMessageRecall-installation*
 
-This script is packaged as a |vimball|. If you have the "gunzip" decompressor
-in your PATH, simply edit the *.vmb.gz package in Vim; otherwise, decompress
-the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
-vimball or via the |:UseVimball| command. >
+The code is hosted in a Git repo at
+    https://github.com/inkarkat/vim-VcsMessageRecall
+You can use your favorite plugin manager, or "git clone" into a directory used
+for Vim |packages|. Releases are on the "stable" branch, the latest unstable
+development snapshot on "master".
+
+This script is also packaged as a |vimball|. If you have the "gunzip"
+decompressor in your PATH, simply edit the *.vmb.gz package in Vim; otherwise,
+decompress the archive first, e.g. using WinZip. Inside Vim, install by
+sourcing the vimball or via the |:UseVimball| command. >
     vim VcsMessageRecall*.vmb.gz
     :so %
 To uninstall, use the |:RmVimball| command.
@@ -84,7 +88,7 @@ To uninstall, use the |:RmVimball| command.
 DEPENDENCIES				       *VcsMessageRecall-dependencies*
 
 - Requires Vim 7.0 or higher.
-- Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.012 or
+- Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.038 or
   higher.
 - Requires the EditSimilar plugin (vimscript #2544), version 2.00 or higher.
 - Requires the BufferPersist plugin (vimscript #4115).
@@ -118,8 +122,20 @@ TODO						       *VcsMessageRecall-todo*
 
 IDEAS						      *VcsMessageRecall-ideas*
 
+CONTRIBUTING					 *VcsMessageRecall-contribute*
+
+Report any bugs, send patches, or suggest features via the issue tracker at
+https://github.com/inkarkat/vim-VcsMessageRecall/issues or email (address
+below).
+
 ==============================================================================
 HISTORY						    *VcsMessageRecall-history*
+
+1.05	23-Feb-2020
+- ENH: Message stores from working copies that are located next to the current
+  one are configured (in |b:MessageRecall_ConfiguredMessageStores|)
+  automatically for easy access via :MessageStore {dir}.
+  *** You need to update to ingo-library (vimscript #4433) version 1.038! ***
 
 1.04	23-Dec-2014
 - Factor out function to and use ingo-library.
@@ -159,7 +175,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012-2018 Ingo Karkat
+Copyright: (C) 2012-2020 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
