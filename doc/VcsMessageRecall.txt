@@ -24,8 +24,6 @@ This way, you automatically collect a history of (committed or aborted) past
 messages, and can quickly base your current message on contents recalled from
 that history.
 
-SEE ALSO								     *
-
 RELATED WORKS								     *
 
 - svn_commit (vimscript #1451) will look in the current directory for aborted
@@ -124,7 +122,7 @@ TODO						       *VcsMessageRecall-todo*
 
 IDEAS						      *VcsMessageRecall-ideas*
 
-CONTRIBUTING			*VcsMessageRecall-contribute*
+CONTRIBUTING					 *VcsMessageRecall-contribute*
 
 Report any bugs, send patches, or suggest features via the issue tracker at
 https://github.com/inkarkat/vim-VcsMessageRecall/issues or email (address
@@ -133,7 +131,7 @@ below).
 ==============================================================================
 HISTORY						    *VcsMessageRecall-history*
 
-1.05	RELEASEME
+1.05	23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current
   one are configured (in |b:MessageRecall_ConfiguredMessageStores|)
   automatically for easy access via :MessageStore {dir}.
@@ -177,7 +175,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012-2019 Ingo Karkat
+Copyright: (C) 2012-2020 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
