@@ -111,7 +111,7 @@ below).
 HISTORY
 ------------------------------------------------------------------------------
 
-##### 1.05    RELEASEME
+##### 1.05    23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current
   one are configured (in b:MessageRecall\_ConfiguredMessageStores)
   automatically for easy access via :MessageStore {dir}.
@@ -157,7 +157,7 @@ boilerplate when at line 1.
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2012-2019 Ingo Karkat -
+Copyright: (C) 2012-2020 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
