@@ -88,6 +88,11 @@ To uninstall, use the :RmVimball command.
 CONFIGURATION
 ------------------------------------------------------------------------------
 
+The message store is located in a directory below the version control system's
+metadata directory; to change the name:
+
+    let g:VcsMessageRecall_StoreDirName = 'commit-msgs'
+
 You can override the autocmds after the plugin has been sourced, e.g. in a
 file ~/.vim/after/plugin/VcsMessageRecall.vim
 For example, to use a single, global message store for all Subversion commits:
@@ -110,6 +115,10 @@ below).
 
 HISTORY
 ------------------------------------------------------------------------------
+
+##### 1.06    RELEASEME
+- Minor: Make the "commit-msgs" directory name configurable via
+  g:VcsMessageRecall\_StoreDirName.
 
 ##### 1.05    23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current
