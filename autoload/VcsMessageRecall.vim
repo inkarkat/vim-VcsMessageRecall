@@ -3,14 +3,14 @@
 " DEPENDENCIES:
 "   - ingo-library.vim plugin
 "
-" Copyright: (C) 2012-2020 Ingo Karkat
+" Copyright: (C) 2012-2021 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! VcsMessageRecall#Setup( MessageStore, boilerplateStartLinePattern ) abort
+function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateStartLinePattern ) abort
     try
 	if MessageRecall#IsStoredMessage(expand('%'))
 	    " Avoid recursive setup when a stored message is edited.
@@ -32,7 +32,8 @@ function! VcsMessageRecall#Setup( MessageStore, boilerplateStartLinePattern ) ab
 	\   l:messageStore,
 	\   {
 	\       'whenRangeNoMatch': 'all',
-	\       'range': printf('1,1/\n\zs\n*%s/-1', a:boilerplateStartLinePattern)
+	\       'range': printf('1,1/\n\zs\n*%s/-1', a:boilerplateStartLinePattern),
+	\       'subDirForUserProvidedDirspec': (empty(a:vcsMetaDataDirName) ? '' : ingo#fs#path#Combine(a:vcsMetaDataDirName, g:VcsMessageRecall_StoreDirName)),
 	\   }
 	\)
     catch /^VcsMessageRecall:/

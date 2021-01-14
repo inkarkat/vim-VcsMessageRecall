@@ -25,9 +25,9 @@ endif
 
 augroup VcsMessageRecall
     autocmd!
-    autocmd FileType gitcommit,gitcommit.* call VcsMessageRecall#Setup(function('VcsMessageRecall#git#MessageStore'), '# Please enter the commit message for your changes\.')
-    autocmd FileType hgcommit,hgcommit.*   call VcsMessageRecall#Setup(function('VcsMessageRecall#hg#MessageStore' ), 'HG: Enter commit message\.')
-    autocmd FileType svn,svn.*             call VcsMessageRecall#Setup(function('VcsMessageRecall#svn#MessageStore'), '--This line, and those below, will be ignored--')
+    autocmd FileType gitcommit,gitcommit.* call VcsMessageRecall#Setup(function('VcsMessageRecall#git#MessageStore'), '.git', '# Please enter the commit message for your changes\.')
+    autocmd FileType hgcommit,hgcommit.*   call VcsMessageRecall#Setup(function('VcsMessageRecall#hg#MessageStore' ), '.hg', 'HG: Enter commit message\.')
+    autocmd FileType svn,svn.*             call VcsMessageRecall#Setup(function('VcsMessageRecall#svn#MessageStore'), '.svn', '--This line, and those below, will be ignored--')
 augroup END
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :

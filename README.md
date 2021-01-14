@@ -119,6 +119,10 @@ HISTORY
 ##### 1.06    RELEASEME
 - Minor: Make the "commit-msgs" directory name configurable via
   g:VcsMessageRecall\_StoreDirName.
+- ENH: Configure the MessageRecall plugin (version 1.40 or higher) to have
+  :MessageStore {dirspec} directly accept the working copy root directory;
+  i.e. the version control system's {metadata}/commit-msgs part can be omitted
+  now.
 
 ##### 1.05    23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current
