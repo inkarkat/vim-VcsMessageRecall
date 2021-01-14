@@ -28,13 +28,13 @@ USAGE
     See MessageRecall-message-usage for the available mappings and commands.
 
     The commit messages are stored separately for each repository, no matter from
-    which subdirectory of the repository you're committing. The location of the
-    message store is
+    which subdirectory of the repository you're committing. The message store is
+    located in a directory below the version control system's metadata directory:
         {.git,.hg,.svn}/commit-msgs/
-    As repositories typically contain totally different projects, it's unlikely
-    that you need to recall messages from a different repository, but if you need
-    to, you can still pass that path to the :MessageRecall command, or even
-    reconfigure the plugin to use a single, global message store.
+    If you need to recall messages from a different repository, you can pass that
+    path to the :MessageRecall command or use the |:MessageStore|[!] command to
+    add / change to another message store. Alternatively, the plugin can be
+    reconfigured to use a single, global message store.
 
 ### EXAMPLE
 
@@ -89,7 +89,7 @@ CONFIGURATION
 ------------------------------------------------------------------------------
 
 You can override the autocmds after the plugin has been sourced, e.g. in a
-file .vim/after/plugin/VcsMessageRecall.vim
+file ~/.vim/after/plugin/VcsMessageRecall.vim
 For example, to use a single, global message store for all Subversion commits:
 
     autocmd! VcsMessageRecall FileType svn,svn.*
@@ -157,7 +157,7 @@ boilerplate when at line 1.
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2012-2020 Ingo Karkat -
+Copyright: (C) 2012-2021 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
