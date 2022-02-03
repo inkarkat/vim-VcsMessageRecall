@@ -39,7 +39,7 @@ endif
 
 augroup VcsMessageRecall
     autocmd!
-    autocmd FileType gitcommit,gitcommit.* call VcsMessageRecall#Setup(function('VcsMessageRecall#git#MessageStore'), '.git', '# Please enter the commit message for your changes\.', g:VcsMessageRecall_git_MessageRecallOptions)
+    autocmd FileType gitcommit,gitcommit.* call VcsMessageRecall#Setup(function('VcsMessageRecall#git#MessageStore'), '.git', '# Please enter \%(a\|the\) commit message', g:VcsMessageRecall_git_MessageRecallOptions)
     autocmd FileType hgcommit,hgcommit.*   call VcsMessageRecall#Setup(function('VcsMessageRecall#hg#MessageStore' ), '.hg', 'HG: Enter commit message\.', g:VcsMessageRecall_hg_MessageRecallOptions)
     autocmd FileType svn,svn.*             call VcsMessageRecall#Setup(function('VcsMessageRecall#svn#MessageStore'), '.svn', '--This line, and those below, will be ignored--', g:VcsMessageRecall_svn_MessageRecallOptions)
 augroup END
