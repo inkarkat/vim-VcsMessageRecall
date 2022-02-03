@@ -101,20 +101,30 @@ The message store is located in a directory below the version control system's
 metadata directory; to change the name: >
     let g:VcsMessageRecall_StoreDirName = 'commit-msgs'
 <
+				 *g:VcsMessageRecall_git_MessageRecallOptions*
+				  *g:VcsMessageRecall_hg_MessageRecallOptions*
+				 *g:VcsMessageRecall_svn_MessageRecallOptions*
+The MessageRecall configuration can be tweaked by adding options into a
+Dictionary, e.g. for Git: >
+    let g:VcsMessageRecall_git_MessageRecallOptions = {
+    \   'ignorePattern': "^Merge branch",
+    \}
+Options provided by VcsMessageRecall ("range", "whenRangeNoMatch") can be
+overridden, too. For example, if you use a localized version of the VCS
+utilities, you have to adapt the patterns for the boilerplate detection in the
+"range" option.
 
-You can override the autocmds after the plugin has been sourced, e.g. in a
-file ~/.vim/after/plugin/VcsMessageRecall.vim
+					  *VcsMessageRecall-override-autocmds*
+Alternatively, you can override the autocmds after the plugin has been
+sourced, e.g. in a file ~/.vim/after/plugin/VcsMessageRecall.vim
 For example, to use a single, global message store for all Subversion commits: >
     autocmd! VcsMessageRecall FileType svn,svn.*
     \	call VcsMessageRecall#Setup(
     \	    $HOME . '/.svn-commit-msgs',
-    \	    '--This line, and those below, will be ignored--'
+    \	    '--This line, and those below, will be ignored--',
+    \	    g:VcsMessageRecall_svn_MessageRecallOptions
     \	)
 <
-
-If you use a localized version of the VCS utilities, you have to adapt the
-patterns for the boilerplate detection.
-
 ==============================================================================
 INTEGRATION					*VcsMessageRecall-integration*
 
@@ -143,6 +153,10 @@ HISTORY						    *VcsMessageRecall-history*
   :MessageStore {dirspec} directly accept the working copy root directory;
   i.e. the version control system's {metadata}/commit-msgs part can be omitted
   now.
+- ENH: Allow overriding the MessageRecall options via
+  g:VcsMessageRecall_{git,hg,svn}_MessageRecallOptions Dictionaries.
+- Ignore Git "Merge branch(s) '...'" commit message boilerplate by default.
+  This can be undone via: let g:VcsMessageRecall_git_MessageRecallOptions = {}
 
 1.05	23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current
@@ -188,7 +202,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012-2021 Ingo Karkat
+Copyright: (C) 2012-2022 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>

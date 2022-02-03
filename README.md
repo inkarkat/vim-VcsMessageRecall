@@ -93,18 +93,28 @@ metadata directory; to change the name:
 
     let g:VcsMessageRecall_StoreDirName = 'commit-msgs'
 
-You can override the autocmds after the plugin has been sourced, e.g. in a
-file ~/.vim/after/plugin/VcsMessageRecall.vim
+The MessageRecall configuration can be tweaked by adding options into a
+Dictionary, e.g. for Git:
+
+    let g:VcsMessageRecall_git_MessageRecallOptions = {
+    \   'ignorePattern': "^Merge branch",
+    \}
+
+Options provided by VcsMessageRecall ("range", "whenRangeNoMatch") can be
+overridden, too. For example, if you use a localized version of the VCS
+utilities, you have to adapt the patterns for the boilerplate detection in the
+"range" option.
+
+Alternatively, you can override the autocmds after the plugin has been
+sourced, e.g. in a file ~/.vim/after/plugin/VcsMessageRecall.vim
 For example, to use a single, global message store for all Subversion commits:
 
     autocmd! VcsMessageRecall FileType svn,svn.*
     \   call VcsMessageRecall#Setup(
     \       $HOME . '/.svn-commit-msgs',
-    \       '--This line, and those below, will be ignored--'
+    \       '--This line, and those below, will be ignored--',
+    \       g:VcsMessageRecall_svn_MessageRecallOptions
     \   )
-
-If you use a localized version of the VCS utilities, you have to adapt the
-patterns for the boilerplate detection.
 
 CONTRIBUTING
 ------------------------------------------------------------------------------
@@ -123,6 +133,10 @@ HISTORY
   :MessageStore {dirspec} directly accept the working copy root directory;
   i.e. the version control system's {metadata}/commit-msgs part can be omitted
   now.
+- ENH: Allow overriding the MessageRecall options via
+  g:VcsMessageRecall\_{git,hg,svn}\_MessageRecallOptions Dictionaries.
+- Ignore Git "Merge branch(s) '...'" commit message boilerplate by default.
+  This can be undone via: let g:VcsMessageRecall\_git\_MessageRecallOptions = {}
 
 ##### 1.05    23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current
@@ -170,7 +184,7 @@ boilerplate when at line 1.
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2012-2021 Ingo Karkat -
+Copyright: (C) 2012-2022 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
