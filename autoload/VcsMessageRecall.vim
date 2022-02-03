@@ -10,7 +10,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateStartLinePattern ) abort
+function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateStartLinePattern, messageRecallOptions ) abort
     try
 	if MessageRecall#IsStoredMessage(expand('%'))
 	    " Avoid recursive setup when a stored message is edited.
@@ -33,6 +33,7 @@ function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateS
 	\   'range': printf('1,1/\n\zs\n*%s/-1', a:boilerplateStartLinePattern),
 	\   'subDirForUserProvidedDirspec': (empty(a:vcsMetaDataDirName) ? '' : ingo#fs#path#Combine(a:vcsMetaDataDirName, g:VcsMessageRecall_StoreDirName)),
 	\}
+	call extend(l:messageRecallOptions, a:messageRecallOptions, 'force')
 
 	call MessageRecall#Setup(l:messageStore, l:messageRecallOptions)
     catch /^VcsMessageRecall:/
