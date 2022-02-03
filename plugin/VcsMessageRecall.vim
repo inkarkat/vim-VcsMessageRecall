@@ -13,6 +13,8 @@ if exists('g:loaded_VcsMessageRecall') || (v:version < 700)
     finish
 endif
 let g:loaded_VcsMessageRecall = 1
+let s:save_cpo = &cpo
+set cpo&vim
 
 "- configuration ---------------------------------------------------------------
 
@@ -21,7 +23,9 @@ if ! exists('g:VcsMessageRecall_StoreDirName')
 endif
 
 if ! exists('g:VcsMessageRecall_git_MessageRecallOptions')
-    let g:VcsMessageRecall_git_MessageRecallOptions = {}
+    let g:VcsMessageRecall_git_MessageRecallOptions = {
+    \   'ignorePattern': "^Merge branch\\%(es\\)\\? '[^\\n]*'\\%( into [^\\n]\\+\\)\\?\\n*$",
+    \}
 endif
 if ! exists('g:VcsMessageRecall_hg_MessageRecallOptions')
     let g:VcsMessageRecall_hg_MessageRecallOptions = {}
@@ -40,4 +44,6 @@ augroup VcsMessageRecall
     autocmd FileType svn,svn.*             call VcsMessageRecall#Setup(function('VcsMessageRecall#svn#MessageStore'), '.svn', '--This line, and those below, will be ignored--', g:VcsMessageRecall_svn_MessageRecallOptions)
 augroup END
 
+let &cpo = s:save_cpo
+unlet s:save_cpo
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
