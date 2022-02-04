@@ -138,6 +138,7 @@ HISTORY
 - Ignore Git "Merge branch(s) '...'" commit message boilerplate by default.
   This can be undone via: let g:VcsMessageRecall\_git\_MessageRecallOptions = {}
 - BUG: Git uses a slightly different boilerplate message for merges.
+- Store the original commit message in the default register when replacing it.
 
 ##### 1.05    23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current

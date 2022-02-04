@@ -25,6 +25,7 @@ endif
 if ! exists('g:VcsMessageRecall_git_MessageRecallOptions')
     let g:VcsMessageRecall_git_MessageRecallOptions = {
     \   'ignorePattern': "^Merge branch\\%(es\\)\\? '[^\\n]*'\\%( into [^\\n]\\+\\)\\?\\n*$",
+    \   'replacedMessageRegister': '"',
     \}
 endif
 if ! exists('g:VcsMessageRecall_hg_MessageRecallOptions')
