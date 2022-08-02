@@ -68,6 +68,7 @@ function! VcsMessageRecall#ObtainAdjacentMessageStores( messageStore ) abort
     return ingo#dict#FromValues(function('VcsMessageRecall#GetStoreName'), l:otherMessageStoreDirspecs)
 "****D echomsg '****' string(a:messageStore) string(l:workingCopyRootParentDirspec) string(l:relativeMessageStorePath)
 endfunction
+
 function! VcsMessageRecall#GetSubmoduleStoreName( absoluteStoreDirspec ) abort
     return fnamemodify(a:absoluteStoreDirspec, ':h:t')
 endfunction
@@ -85,10 +86,43 @@ function! VcsMessageRecall#ObtainSubmoduleMessageStores( messageStore ) abort
 
     return ingo#dict#FromValues(function('VcsMessageRecall#GetSubmoduleStoreName'), l:submoduleMessageStoreDirspecs)
 endfunction
+function! VcsMessageRecall#ObtainAdjacentSubmoduleMessageStores( messageStore ) abort
+    let l:absoluteMessageStore = fnamemodify(a:messageStore, ':p')
+    let l:moduleDirspec = ingo#fs#path#Combine(fnamemodify(l:absoluteMessageStore, ':h:h:h:h'), 'modules')
+    if ! isdirectory(l:moduleDirspec)
+	return {}
+    endif
+
+    let l:submoduleMessageStoreDirspecs = ingo#compat#glob(ingo#fs#path#Combine(l:moduleDirspec, '*', g:VcsMessageRecall_StoreDirName), 1, 1)
+
+    return ingo#dict#FromValues(function('VcsMessageRecall#GetSubmoduleStoreName'), l:submoduleMessageStoreDirspecs)
+endfunction
+function! VcsMessageRecall#ObtainSuperProjectMessageStores( messageStore ) abort
+    let l:absoluteMessageStore = fnamemodify(a:messageStore, ':p')
+    if ! fnamemodify(l:absoluteMessageStore, ':h:h:t') ==# 'modules'
+	return {}
+    endif
+
+    let l:superProjectMessageStoreDirspec = ingo#fs#path#Combine(fnamemodify(l:absoluteMessageStore, ':h:h:h:h'), g:VcsMessageRecall_StoreDirName)
+    let l:superProjectName = fnamemodify(l:absoluteMessageStore, ':h:h:h:h:h:t')
+
+    return {l:superProjectName : l:superProjectMessageStoreDirspec}
+endfunction
 function! VcsMessageRecall#ObtainSubmoduleAwareMessageStores( messageStore ) abort
+    " Submodules take precedence over adjacent working copies.
     let l:result = VcsMessageRecall#ObtainSubmoduleMessageStores(a:messageStore)
     if empty(l:result)
+	" There are no commit messages for submodules; try adjacent working copies.
 	let l:result = VcsMessageRecall#ObtainAdjacentMessageStores(a:messageStore)
+	if empty(l:result)
+	    " If no adjacent working copies are found, it could be because we're
+	    " in a submodule right now; paths to adjacent submodules are
+	    " slightly different.
+	    let l:result = VcsMessageRecall#ObtainAdjacentSubmoduleMessageStores(a:messageStore)
+	    " Also include the superproject's commit message; we may want to
+	    " recall in that direction as well.
+	    call extend(l:result, VcsMessageRecall#ObtainSuperProjectMessageStores(a:messageStore))
+	endif
     endif
     return l:result
 endfunction
