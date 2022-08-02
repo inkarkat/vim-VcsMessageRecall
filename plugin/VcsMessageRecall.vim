@@ -36,7 +36,7 @@ if ! exists('g:VcsMessageRecall_svn_MessageRecallOptions')
 endif
 
 if ! exists('g:VcsMessageRecall_git_AdjacentMessageStores')
-    let g:VcsMessageRecall_git_AdjacentMessageStores = function('VcsMessageRecall#ObtainAdjacentMessageStores')
+    let g:VcsMessageRecall_git_AdjacentMessageStores = function('VcsMessageRecall#ObtainSubmoduleAwareMessageStores')
 endif
 if ! exists('g:VcsMessageRecall_hg_AdjacentMessageStores')
     let g:VcsMessageRecall_hg_AdjacentMessageStores = function('VcsMessageRecall#ObtainAdjacentMessageStores')

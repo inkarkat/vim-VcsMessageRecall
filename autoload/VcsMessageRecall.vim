@@ -68,6 +68,30 @@ function! VcsMessageRecall#ObtainAdjacentMessageStores( messageStore ) abort
     return ingo#dict#FromValues(function('VcsMessageRecall#GetStoreName'), l:otherMessageStoreDirspecs)
 "****D echomsg '****' string(a:messageStore) string(l:workingCopyRootParentDirspec) string(l:relativeMessageStorePath)
 endfunction
+function! VcsMessageRecall#GetSubmoduleStoreName( absoluteStoreDirspec ) abort
+    return fnamemodify(a:absoluteStoreDirspec, ':h:t')
+endfunction
+function! VcsMessageRecall#ObtainSubmoduleMessageStores( messageStore ) abort
+    let l:absoluteMessageStore = fnamemodify(a:messageStore, ':p')
+    " Assumption: There's one version control system metadata subdirectory and
+    " then the commit-msgs subdir in it, so two directories up is the working
+    " copy root.
+    let l:moduleDirspec = ingo#fs#path#Combine(fnamemodify(l:absoluteMessageStore, ':h:h'), 'modules')
+    if ! isdirectory(l:moduleDirspec)
+	return {}
+    endif
+
+    let l:submoduleMessageStoreDirspecs = ingo#compat#glob(ingo#fs#path#Combine(l:moduleDirspec, '*', g:VcsMessageRecall_StoreDirName), 1, 1)
+
+    return ingo#dict#FromValues(function('VcsMessageRecall#GetSubmoduleStoreName'), l:submoduleMessageStoreDirspecs)
+endfunction
+function! VcsMessageRecall#ObtainSubmoduleAwareMessageStores( messageStore ) abort
+    let l:result = VcsMessageRecall#ObtainSubmoduleMessageStores(a:messageStore)
+    if empty(l:result)
+	let l:result = VcsMessageRecall#ObtainAdjacentMessageStores(a:messageStore)
+    endif
+    return l:result
+endfunction
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

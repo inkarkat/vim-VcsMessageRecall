@@ -170,6 +170,8 @@ HISTORY						    *VcsMessageRecall-history*
 - Git may have a merge commit warning in front of the usual boilerplate.
 - ENH: Allow tweaking the adjacent message store discovery via
   g:VcsMessageRecall_{git,hg,svn}_AdjacentMessageStores configuration.
+- ENH: Consider message stores from Git submodules for :MessageStore
+  completion if such exist.
 
 1.05	23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current
