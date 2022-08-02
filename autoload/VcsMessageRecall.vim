@@ -26,7 +26,12 @@ function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateS
 	    let l:messageStore = a:MessageStore
 	endif
 
-	call s:ConfigureAdjacentMessageStores(l:messageStore)
+	if ! exists('b:MessageRecall_ConfiguredMessageStores')
+	    let l:adjacentMessageStores = VcsMessageRecall#ObtainAdjacentMessageStores(l:messageStore)
+	    if ! empty(l:adjacentMessageStores)
+		let b:MessageRecall_ConfiguredMessageStores = l:adjacentMessageStores
+	    endif
+	endif
 
 	let l:messageRecallOptions = {
 	\   'whenRangeNoMatch': 'all',
@@ -46,7 +51,7 @@ endfunction
 function! VcsMessageRecall#GetStoreName( absoluteStoreDirspec ) abort
     return fnamemodify(a:absoluteStoreDirspec, ':h:h:h:t')
 endfunction
-function! s:ConfigureAdjacentMessageStores( messageStore ) abort
+function! VcsMessageRecall#ObtainAdjacentMessageStores( messageStore ) abort
     let l:absoluteMessageStore = fnamemodify(a:messageStore, ':p')
     " Assumption: There's one version control system metadata subdirectory and
     " then the commit-msgs subdir in it, so two directories up is the working
@@ -60,12 +65,8 @@ function! s:ConfigureAdjacentMessageStores( messageStore ) abort
     \       '! ingo#fs#path#Equals(v:val, l:absoluteMessageStore)'
     \   )
 
-    let l:otherMessageStores = ingo#dict#FromValues(function("VcsMessageRecall#GetStoreName"), l:otherMessageStoreDirspecs)
-    if ! empty(l:otherMessageStores) && ! exists('b:MessageRecall_ConfiguredMessageStores')
-	let b:MessageRecall_ConfiguredMessageStores = l:otherMessageStores
-    endif
+    return ingo#dict#FromValues(function('VcsMessageRecall#GetStoreName'), l:otherMessageStoreDirspecs)
 "****D echomsg '****' string(a:messageStore) string(l:workingCopyRootParentDirspec) string(l:relativeMessageStorePath)
-"****D echomsg '****' string(l:otherMessageStores)
 endfunction
 
 let &cpo = s:save_cpo
