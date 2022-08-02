@@ -10,7 +10,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateStartLinePattern, messageRecallOptions ) abort
+function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateStartLinePattern, messageRecallOptions, AdjacentMessageStores ) abort
     try
 	if MessageRecall#IsStoredMessage(expand('%'))
 	    " Avoid recursive setup when a stored message is edited.
@@ -26,8 +26,8 @@ function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateS
 	    let l:messageStore = a:MessageStore
 	endif
 
-	if ! exists('b:MessageRecall_ConfiguredMessageStores')
-	    let l:adjacentMessageStores = VcsMessageRecall#ObtainAdjacentMessageStores(l:messageStore)
+	if ! exists('b:MessageRecall_ConfiguredMessageStores') && ! empty(a:AdjacentMessageStores)
+	    let l:adjacentMessageStores = call(a:AdjacentMessageStores, [l:messageStore])
 	    if ! empty(l:adjacentMessageStores)
 		let b:MessageRecall_ConfiguredMessageStores = l:adjacentMessageStores
 	    endif

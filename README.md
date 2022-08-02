@@ -116,6 +116,11 @@ For example, to use a single, global message store for all Subversion commits:
     \       g:VcsMessageRecall_svn_MessageRecallOptions
     \   )
 
+The plugin automatically discovers adjacent repositories as completion
+candiates for the :MessageStore command (unless these are already set in
+b:MessageRecall\_ConfiguredMessageStores). The algorithm can be tweaked via a
+corresponding Funcref.
+
 CONTRIBUTING
 ------------------------------------------------------------------------------
 
@@ -140,6 +145,8 @@ HISTORY
 - BUG: Git uses a slightly different boilerplate message for merges.
 - Store the original commit message in the default register when replacing it.
 - Git may have a merge commit warning in front of the usual boilerplate.
+- ENH: Allow tweaking the adjacent message store discovery via
+  g:VcsMessageRecall\_{git,hg,svn}\_AdjacentMessageStores configuration.
 
 ##### 1.05    23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current

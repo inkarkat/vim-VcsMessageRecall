@@ -35,14 +35,24 @@ if ! exists('g:VcsMessageRecall_svn_MessageRecallOptions')
     let g:VcsMessageRecall_svn_MessageRecallOptions = {}
 endif
 
+if ! exists('g:VcsMessageRecall_git_AdjacentMessageStores')
+    let g:VcsMessageRecall_git_AdjacentMessageStores = function('VcsMessageRecall#ObtainAdjacentMessageStores')
+endif
+if ! exists('g:VcsMessageRecall_hg_AdjacentMessageStores')
+    let g:VcsMessageRecall_hg_AdjacentMessageStores = function('VcsMessageRecall#ObtainAdjacentMessageStores')
+endif
+if ! exists('g:VcsMessageRecall_svn_AdjacentMessageStores')
+    let g:VcsMessageRecall_svn_AdjacentMessageStores = function('VcsMessageRecall#ObtainAdjacentMessageStores')
+endif
+
 
 "- autocmds --------------------------------------------------------------------
 
 augroup VcsMessageRecall
     autocmd!
-    autocmd FileType gitcommit,gitcommit.* call VcsMessageRecall#Setup(function('VcsMessageRecall#git#MessageStore'), '.git', '# \%(Please enter \%(a\|the\) commit message\|It looks like you may be committing a merge\.\)', g:VcsMessageRecall_git_MessageRecallOptions)
-    autocmd FileType hgcommit,hgcommit.*   call VcsMessageRecall#Setup(function('VcsMessageRecall#hg#MessageStore' ), '.hg', 'HG: Enter commit message\.', g:VcsMessageRecall_hg_MessageRecallOptions)
-    autocmd FileType svn,svn.*             call VcsMessageRecall#Setup(function('VcsMessageRecall#svn#MessageStore'), '.svn', '--This line, and those below, will be ignored--', g:VcsMessageRecall_svn_MessageRecallOptions)
+    autocmd FileType gitcommit,gitcommit.* call VcsMessageRecall#Setup(function('VcsMessageRecall#git#MessageStore'), '.git', '# \%(Please enter \%(a\|the\) commit message\|It looks like you may be committing a merge\.\)', g:VcsMessageRecall_git_MessageRecallOptions, g:VcsMessageRecall_git_AdjacentMessageStores)
+    autocmd FileType hgcommit,hgcommit.*   call VcsMessageRecall#Setup(function('VcsMessageRecall#hg#MessageStore' ), '.hg', 'HG: Enter commit message\.', g:VcsMessageRecall_hg_MessageRecallOptions, g:VcsMessageRecall_hg_AdjacentMessageStores)
+    autocmd FileType svn,svn.*             call VcsMessageRecall#Setup(function('VcsMessageRecall#svn#MessageStore'), '.svn', '--This line, and those below, will be ignored--', g:VcsMessageRecall_svn_MessageRecallOptions, g:VcsMessageRecall_svn_AdjacentMessageStores)
 augroup END
 
 let &cpo = s:save_cpo
