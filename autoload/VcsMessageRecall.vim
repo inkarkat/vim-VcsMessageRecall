@@ -20,12 +20,7 @@ function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateS
 	    return
 	endif
 
-	if type(a:MessageStore) == type(function('tr'))
-	    let l:messageStore = call(a:MessageStore, [])
-	else
-	    let l:messageStore = a:MessageStore
-	endif
-
+	let l:messageStore = ingo#actions#ValueOrFunc(a:MessageStore)
 	if ! exists('b:MessageRecall_ConfiguredMessageStores') && ! empty(a:AdjacentMessageStores)
 	    let l:adjacentMessageStores = call(a:AdjacentMessageStores, [l:messageStore])
 	    if ! empty(l:adjacentMessageStores)
