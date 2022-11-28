@@ -101,6 +101,12 @@ The message store is located in a directory below the version control system's
 metadata directory; to change the name: >
     let g:VcsMessageRecall_StoreDirName = 'commit-msgs'
 <
+	   *g:VcsMessageRecall_StoreDirspec* *b:VcsMessageRecall_StoreDirspec*
+The message store directory can be overridden (globally if you want to have a
+single shared store for all repositories, or for a particular repository (e.g.
+via a local vimrc plugin) with a buffer-local variable). This dirspec should
+end with |g:VcsMessageRecall_StoreDirName|.
+
 				 *g:VcsMessageRecall_git_MessageRecallOptions*
 				  *g:VcsMessageRecall_hg_MessageRecallOptions*
 				 *g:VcsMessageRecall_svn_MessageRecallOptions*
@@ -172,6 +178,9 @@ HISTORY						    *VcsMessageRecall-history*
   g:VcsMessageRecall_{git,hg,svn}_AdjacentMessageStores configuration.
 - ENH: Consider message stores from Git submodules (contained, adjacent) and
   the superproject for :MessageStore completion if such exist.
+- ENH: Allow overriding of the message store directory via
+  g:VcsMessageRecall_StoreDirspec; e.g. to share the superproject's message
+  store with submodules.
 
 1.05	23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current

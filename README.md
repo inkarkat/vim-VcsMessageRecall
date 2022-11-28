@@ -93,6 +93,11 @@ metadata directory; to change the name:
 
     let g:VcsMessageRecall_StoreDirName = 'commit-msgs'
 
+The message store directory can be overridden (globally if you want to have a
+single shared store for all repositories, or for a particular repository (e.g.
+via a local vimrc plugin) with a buffer-local variable). This dirspec should
+end with g:VcsMessageRecall\_StoreDirName.
+
 The MessageRecall configuration can be tweaked by adding options into a
 Dictionary, e.g. for Git:
 
@@ -149,6 +154,9 @@ HISTORY
   g:VcsMessageRecall\_{git,hg,svn}\_AdjacentMessageStores configuration.
 - ENH: Consider message stores from Git submodules (contained, adjacent) and
   the superproject for :MessageStore completion if such exist.
+- ENH: Allow overriding of the message store directory via
+  g:VcsMessageRecall\_StoreDirspec; e.g. to share the superproject's message
+  store with submodules.
 
 ##### 1.05    23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current

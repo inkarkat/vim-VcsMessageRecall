@@ -20,7 +20,8 @@ function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateS
 	    return
 	endif
 
-	let l:messageStore = ingo#actions#ValueOrFunc(a:MessageStore)
+	let l:messageStore = ingo#actions#ValueOrFunc(ingo#plugin#setting#GetBufferLocal('VcsMessageRecall_StoreDirspec', a:MessageStore))
+
 	if ! exists('b:MessageRecall_ConfiguredMessageStores') && ! empty(a:AdjacentMessageStores)
 	    let l:adjacentMessageStores = call(a:AdjacentMessageStores, [l:messageStore])
 	    if ! empty(l:adjacentMessageStores)
