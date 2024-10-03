@@ -160,7 +160,7 @@ below).
 ==============================================================================
 HISTORY						    *VcsMessageRecall-history*
 
-1.06	RELEASEME
+1.06	03-Oct-2024
 - Minor: Make the "commit-msgs" directory name configurable via
   g:VcsMessageRecall_StoreDirName.
 - ENH: Configure the MessageRecall plugin (version 1.40 or higher) to have
@@ -226,7 +226,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012-2022 Ingo Karkat
+Copyright: (C) 2012-2024 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
