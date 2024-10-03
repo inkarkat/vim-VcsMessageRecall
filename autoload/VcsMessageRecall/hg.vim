@@ -3,7 +3,7 @@
 " DEPENDENCIES:
 "   - ingo-library.vim plugin
 "
-" Copyright: (C) 2012-2020 Ingo Karkat
+" Copyright: (C) 2012-2021 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -30,7 +30,7 @@ function! VcsMessageRecall#hg#MessageStore()
 	let l:hgDirspec = ingo#fs#path#Combine(l:hgRoot, '.hg')
     endif
 
-    return ingo#fs#path#Combine(l:hgDirspec, 'commit-msgs')
+    return ingo#fs#path#Combine(l:hgDirspec, g:VcsMessageRecall_StoreDirName)
 endfunction
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :

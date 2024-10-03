@@ -28,13 +28,13 @@ USAGE
     See MessageRecall-message-usage for the available mappings and commands.
 
     The commit messages are stored separately for each repository, no matter from
-    which subdirectory of the repository you're committing. The location of the
-    message store is
+    which subdirectory of the repository you're committing. The message store is
+    located in a directory below the version control system's metadata directory:
         {.git,.hg,.svn}/commit-msgs/
-    As repositories typically contain totally different projects, it's unlikely
-    that you need to recall messages from a different repository, but if you need
-    to, you can still pass that path to the :MessageRecall command, or even
-    reconfigure the plugin to use a single, global message store.
+    If you need to recall messages from a different repository, you can pass that
+    path to the :MessageRecall command or use the |:MessageStore|[!] command to
+    add / change to another message store. Alternatively, the plugin can be
+    reconfigured to use a single, global message store.
 
 ### EXAMPLE
 
@@ -88,18 +88,43 @@ To uninstall, use the :RmVimball command.
 CONFIGURATION
 ------------------------------------------------------------------------------
 
-You can override the autocmds after the plugin has been sourced, e.g. in a
-file .vim/after/plugin/VcsMessageRecall.vim
+The message store is located in a directory below the version control system's
+metadata directory; to change the name:
+
+    let g:VcsMessageRecall_StoreDirName = 'commit-msgs'
+
+The message store directory can be overridden (globally if you want to have a
+single shared store for all repositories, or for a particular repository (e.g.
+via a local vimrc plugin) with a buffer-local variable). This dirspec should
+end with g:VcsMessageRecall\_StoreDirName.
+
+The MessageRecall configuration can be tweaked by adding options into a
+Dictionary, e.g. for Git:
+
+    let g:VcsMessageRecall_git_MessageRecallOptions = {
+    \   'ignorePattern': "^Merge branch",
+    \}
+
+Options provided by VcsMessageRecall ("range", "whenRangeNoMatch") can be
+overridden, too. For example, if you use a localized version of the VCS
+utilities, you have to adapt the patterns for the boilerplate detection in the
+"range" option.
+
+Alternatively, you can override the autocmds after the plugin has been
+sourced, e.g. in a file ~/.vim/after/plugin/VcsMessageRecall.vim
 For example, to use a single, global message store for all Subversion commits:
 
     autocmd! VcsMessageRecall FileType svn,svn.*
     \   call VcsMessageRecall#Setup(
     \       $HOME . '/.svn-commit-msgs',
-    \       '--This line, and those below, will be ignored--'
+    \       '--This line, and those below, will be ignored--',
+    \       g:VcsMessageRecall_svn_MessageRecallOptions
     \   )
 
-If you use a localized version of the VCS utilities, you have to adapt the
-patterns for the boilerplate detection.
+The plugin automatically discovers adjacent repositories as completion
+candiates for the :MessageStore command (unless these are already set in
+b:MessageRecall\_ConfiguredMessageStores). The algorithm can be tweaked via a
+corresponding Funcref.
 
 CONTRIBUTING
 ------------------------------------------------------------------------------
@@ -110,6 +135,28 @@ below).
 
 HISTORY
 ------------------------------------------------------------------------------
+
+##### 1.06    03-Oct-2024
+- Minor: Make the "commit-msgs" directory name configurable via
+  g:VcsMessageRecall\_StoreDirName.
+- ENH: Configure the MessageRecall plugin (version 1.40 or higher) to have
+  :MessageStore {dirspec} directly accept the working copy root directory;
+  i.e. the version control system's {metadata}/commit-msgs part can be omitted
+  now.
+- ENH: Allow overriding the MessageRecall options via
+  g:VcsMessageRecall\_{git,hg,svn}\_MessageRecallOptions Dictionaries.
+- Ignore Git "Merge branch(s) '...'" commit message boilerplate by default.
+  This can be undone via: let g:VcsMessageRecall\_git\_MessageRecallOptions = {}
+- BUG: Git uses a slightly different boilerplate message for merges.
+- Store the original commit message in the default register when replacing it.
+- Git may have a merge commit warning in front of the usual boilerplate.
+- ENH: Allow tweaking the adjacent message store discovery via
+  g:VcsMessageRecall\_{git,hg,svn}\_AdjacentMessageStores configuration.
+- ENH: Consider message stores from Git submodules (contained, adjacent) and
+  the superproject for :MessageStore completion if such exist.
+- ENH: Allow overriding of the message store directory via
+  g:VcsMessageRecall\_StoreDirspec; e.g. to share the superproject's message
+  store with submodules.
 
 ##### 1.05    23-Feb-2020
 - ENH: Message stores from working copies that are located next to the current
@@ -157,7 +204,7 @@ boilerplate when at line 1.
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2012-2020 Ingo Karkat -
+Copyright: (C) 2012-2024 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
