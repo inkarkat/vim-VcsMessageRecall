@@ -3,7 +3,7 @@
 " DEPENDENCIES:
 "   - Requires Vim 7.0 or higher.
 "
-" Copyright: (C) 2012-2022 Ingo Karkat
+" Copyright: (C) 2012-2024 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -22,6 +22,13 @@ if ! exists('g:VcsMessageRecall_StoreDirName')
     let g:VcsMessageRecall_StoreDirName = 'commit-msgs'
 endif
 
+if ! exists('g:VcsMessageRecall_git_MessageTrailerPattern')
+    let g:VcsMessageRecall_git_MessageTrailerPattern = '[[:upper:]][[:alnum:]-]*:'
+endif
+let s:gitTrailerPattern = (empty(g:VcsMessageRecall_git_MessageTrailerPattern)
+\   ? ''
+\   : printf('\%%(\%%(%s\)[^\n]*\n\%%(\s\+[^\n]*\n\)*\)*', g:VcsMessageRecall_git_MessageTrailerPattern)
+\)
 if ! exists('g:VcsMessageRecall_git_MessageRecallOptions')
     let g:VcsMessageRecall_git_MessageRecallOptions = {
     \   'ignorePattern': "^Merge branch\\%(es\\)\\? '[^\\n]*'\\%( into [^\\n]\\+\\)\\?\\n*$",
@@ -50,7 +57,7 @@ endif
 
 augroup VcsMessageRecall
     autocmd!
-    autocmd FileType gitcommit,gitcommit.* call VcsMessageRecall#Setup(function('VcsMessageRecall#git#MessageStore'), '.git', '# \%(Please enter \%(a\|the\) commit message\|It looks like you may be committing a merge\.\)', g:VcsMessageRecall_git_MessageRecallOptions, g:VcsMessageRecall_git_AdjacentMessageStores)
+    autocmd FileType gitcommit,gitcommit.* call VcsMessageRecall#Setup(function('VcsMessageRecall#git#MessageStore'), '.git', s:gitTrailerPattern . '# \%(Please enter \%(a\|the\) commit message\|It looks like you may be committing a merge\.\)', g:VcsMessageRecall_git_MessageRecallOptions, g:VcsMessageRecall_git_AdjacentMessageStores)
     autocmd FileType hgcommit,hgcommit.*   call VcsMessageRecall#Setup(function('VcsMessageRecall#hg#MessageStore' ), '.hg', 'HG: Enter commit message\.', g:VcsMessageRecall_hg_MessageRecallOptions, g:VcsMessageRecall_hg_AdjacentMessageStores)
     autocmd FileType svn,svn.*             call VcsMessageRecall#Setup(function('VcsMessageRecall#svn#MessageStore'), '.svn', '--This line, and those below, will be ignored--', g:VcsMessageRecall_svn_MessageRecallOptions, g:VcsMessageRecall_svn_AdjacentMessageStores)
 augroup END
