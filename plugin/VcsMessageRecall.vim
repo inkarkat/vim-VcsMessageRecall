@@ -25,9 +25,10 @@ endif
 if ! exists('g:VcsMessageRecall_git_MessageTrailerPattern')
     let g:VcsMessageRecall_git_MessageTrailerPattern = '[[:upper:]][[:alnum:]-]*:'
 endif
+let s:gitBoilerplateStartLinePattern = '# \%(Please enter \%(a\|the\) commit message\|It looks like you may be committing a merge\.\)'
 let s:gitTrailerPattern = (empty(g:VcsMessageRecall_git_MessageTrailerPattern)
 \   ? ''
-\   : printf('\%%(\%%(%s\)[^\n]*\n\%%(\s\+[^\n]*\n\)*\)*', g:VcsMessageRecall_git_MessageTrailerPattern)
+\   : printf('\%%(\n\%%(%s\)[^\n]*\%%(\n\s\+[^\n]*\)*\)\%%(\%%$\|\n\+%s\)', g:VcsMessageRecall_git_MessageTrailerPattern, s:gitBoilerplateStartLinePattern)
 \)
 if ! exists('g:VcsMessageRecall_git_MessageRecallOptions')
     let g:VcsMessageRecall_git_MessageRecallOptions = {
@@ -57,9 +58,9 @@ endif
 
 augroup VcsMessageRecall
     autocmd!
-    autocmd FileType gitcommit,gitcommit.* call VcsMessageRecall#Setup(function('VcsMessageRecall#git#MessageStore'), '.git', s:gitTrailerPattern . '# \%(Please enter \%(a\|the\) commit message\|It looks like you may be committing a merge\.\)', g:VcsMessageRecall_git_MessageRecallOptions, g:VcsMessageRecall_git_AdjacentMessageStores)
-    autocmd FileType hgcommit,hgcommit.*   call VcsMessageRecall#Setup(function('VcsMessageRecall#hg#MessageStore' ), '.hg', 'HG: Enter commit message\.', g:VcsMessageRecall_hg_MessageRecallOptions, g:VcsMessageRecall_hg_AdjacentMessageStores)
-    autocmd FileType svn,svn.*             call VcsMessageRecall#Setup(function('VcsMessageRecall#svn#MessageStore'), '.svn', '--This line, and those below, will be ignored--', g:VcsMessageRecall_svn_MessageRecallOptions, g:VcsMessageRecall_svn_AdjacentMessageStores)
+    autocmd FileType gitcommit,gitcommit.* call VcsMessageRecall#Setup(function('VcsMessageRecall#git#MessageStore'), '.git', s:gitTrailerPattern, s:gitBoilerplateStartLinePattern, g:VcsMessageRecall_git_MessageRecallOptions, g:VcsMessageRecall_git_AdjacentMessageStores)
+    autocmd FileType hgcommit,hgcommit.*   call VcsMessageRecall#Setup(function('VcsMessageRecall#hg#MessageStore' ), '.hg', '', 'HG: Enter commit message\.', g:VcsMessageRecall_hg_MessageRecallOptions, g:VcsMessageRecall_hg_AdjacentMessageStores)
+    autocmd FileType svn,svn.*             call VcsMessageRecall#Setup(function('VcsMessageRecall#svn#MessageStore'), '.svn', '', '--This line, and those below, will be ignored--', g:VcsMessageRecall_svn_MessageRecallOptions, g:VcsMessageRecall_svn_AdjacentMessageStores)
 augroup END
 
 let &cpo = s:save_cpo

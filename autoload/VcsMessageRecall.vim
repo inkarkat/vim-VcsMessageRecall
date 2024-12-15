@@ -3,14 +3,14 @@
 " DEPENDENCIES:
 "   - ingo-library.vim plugin
 "
-" Copyright: (C) 2012-2022 Ingo Karkat
+" Copyright: (C) 2012-2024 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateStartLinePattern, messageRecallOptions, AdjacentMessageStores ) abort
+function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateTrailerPattern, boilerplateStartLinePattern, messageRecallOptions, AdjacentMessageStores ) abort
     try
 	if MessageRecall#IsStoredMessage(expand('%'))
 	    " Avoid recursive setup when a stored message is edited.
@@ -29,9 +29,18 @@ function! VcsMessageRecall#Setup( MessageStore, vcsMetaDataDirName, boilerplateS
 	    endif
 	endif
 
+	let l:range = []
+	" The trailer pattern needs to be the first range to be tried, as it needs to
+	" take precedence over the (included) boilerplate start line pattern.
+	if ! empty(a:boilerplateTrailerPattern)
+	    call add(l:range, printf('1,1/%s/-2', a:boilerplateTrailerPattern))
+	endif
+	if ! empty(a:boilerplateStartLinePattern)
+	    call add(l:range, printf('1,1/\n\zs\n*%s/-1', a:boilerplateStartLinePattern))
+	endif
 	let l:messageRecallOptions = {
 	\   'whenRangeNoMatch': 'all',
-	\   'range': printf('1,1/\n\zs\n*%s/-1', a:boilerplateStartLinePattern),
+	\   'range': l:range,
 	\   'subDirForUserProvidedDirspec': (empty(a:vcsMetaDataDirName) ? '' : ingo#fs#path#Combine(a:vcsMetaDataDirName, g:VcsMessageRecall_StoreDirName)),
 	\}
 	call extend(l:messageRecallOptions, a:messageRecallOptions, 'force')
