@@ -91,8 +91,8 @@ DEPENDENCIES				       *VcsMessageRecall-dependencies*
 - Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.038 or
   higher.
 - Requires the EditSimilar plugin (vimscript #2544), version 2.00 or higher.
-- Requires the BufferPersist plugin (vimscript #4115).
-- Requires the MessageRecall plugin (vimscript #4116).
+- Requires the BufferPersist plugin (vimscript #4115), version 1.50 or higher.
+- Requires the MessageRecall plugin (vimscript #4116), version 1.11 or higher.
 
 ==============================================================================
 CONFIGURATION				      *VcsMessageRecall-configuration*
@@ -119,6 +119,13 @@ Options provided by VcsMessageRecall ("range", "whenRangeNoMatch") can be
 overridden, too. For example, if you use a localized version of the VCS
 utilities, you have to adapt the patterns for the boilerplate detection in the
 "range" option.
+				*g:VcsMessageRecall_git_MessageTrailerPattern*
+The plugin recognizes Git message trailer keys that start with an uppercase
+letter, followed by alphanumeric characters and dashes, with a colon as the
+separator. If you've configured different trailers, you need to adapt the
+pattern: >
+    let g:VcsMessageRecall_git_MessageTrailerPattern = '[[:upper:]][[:alnum:]-]*:'
+To disable trailer recognition, set this to an empty string.
 
 					  *VcsMessageRecall-override-autocmds*
 Alternatively, you can override the autocmds after the plugin has been
@@ -159,6 +166,13 @@ below).
 
 ==============================================================================
 HISTORY						    *VcsMessageRecall-history*
+
+1.10	RELEASEME
+- ENH: Exclude Git commit message trailers from the stored message. These are
+  commit-specific metadata and either auto-generated or explicitly passed from
+  "git commit --trailer". Recalling them is (mostly) wrong.
+  *** You need to update to MessageRecall.vim (vimscript #4116) version 1.50! ***
+  *** You need to update to BufferPersist.vim (vimscript #4115) version 1.11! ***
 
 1.06	03-Oct-2024
 - Minor: Make the "commit-msgs" directory name configurable via
