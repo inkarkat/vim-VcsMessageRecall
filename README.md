@@ -145,7 +145,7 @@ below).
 HISTORY
 ------------------------------------------------------------------------------
 
-##### 1.10    RELEASEME
+##### 1.10    07-Feb-2025
 - ENH: Exclude Git commit message trailers from the stored message. These are
   commit-specific metadata and either auto-generated or explicitly passed from
   "git commit --trailer". Recalling them is (mostly) wrong.
@@ -222,7 +222,7 @@ boilerplate when at line 1.
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2012-2024 Ingo Karkat -
+Copyright: (C) 2012-2025 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
