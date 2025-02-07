@@ -82,8 +82,8 @@ To uninstall, use the :RmVimball command.
 - Requires the ingo-library.vim plugin ([vimscript #4433](http://www.vim.org/scripts/script.php?script_id=4433)), version 1.038 or
   higher.
 - Requires the EditSimilar plugin ([vimscript #2544](http://www.vim.org/scripts/script.php?script_id=2544)), version 2.00 or higher.
-- Requires the BufferPersist plugin ([vimscript #4115](http://www.vim.org/scripts/script.php?script_id=4115)).
-- Requires the MessageRecall plugin ([vimscript #4116](http://www.vim.org/scripts/script.php?script_id=4116)).
+- Requires the BufferPersist plugin ([vimscript #4115](http://www.vim.org/scripts/script.php?script_id=4115)), version 1.50 or higher.
+- Requires the MessageRecall plugin ([vimscript #4116](http://www.vim.org/scripts/script.php?script_id=4116)), version 1.11 or higher.
 
 CONFIGURATION
 ------------------------------------------------------------------------------
@@ -110,6 +110,15 @@ overridden, too. For example, if you use a localized version of the VCS
 utilities, you have to adapt the patterns for the boilerplate detection in the
 "range" option.
 
+The plugin recognizes Git message trailer keys that start with an uppercase
+letter, followed by alphanumeric characters and dashes, with a colon as the
+separator. If you've configured different trailers, you need to adapt the
+pattern:
+
+    let g:VcsMessageRecall_git_MessageTrailerPattern = '[[:upper:]][[:alnum:]-]*:'
+
+To disable trailer recognition, set this to an empty string.
+
 Alternatively, you can override the autocmds after the plugin has been
 sourced, e.g. in a file ~/.vim/after/plugin/VcsMessageRecall.vim
 For example, to use a single, global message store for all Subversion commits:
@@ -135,6 +144,15 @@ below).
 
 HISTORY
 ------------------------------------------------------------------------------
+
+##### 1.10    07-Feb-2025
+- ENH: Exclude Git commit message trailers from the stored message. These are
+  commit-specific metadata and either auto-generated or explicitly passed from
+  "git commit --trailer". Recalling them is (mostly) wrong.
+
+__You need to update to MessageRecall.vim ([vimscript #4116](http://www.vim.org/scripts/script.php?script_id=4116)) version 1.50!__
+
+__You need to update to BufferPersist.vim ([vimscript #4115](http://www.vim.org/scripts/script.php?script_id=4115)) version 1.11!__
 
 ##### 1.06    03-Oct-2024
 - Minor: Make the "commit-msgs" directory name configurable via
@@ -204,7 +222,7 @@ boilerplate when at line 1.
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2012-2024 Ingo Karkat -
+Copyright: (C) 2012-2025 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
